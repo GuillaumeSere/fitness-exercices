@@ -14,7 +14,7 @@ const Navbar = () => {
             <img src={Logo} style={{width: '48px', height: '48px', margin: '0 20px'}} alt="" />
         </Link>
         <Stack direction="row" gap="40px" fontSize="24px" alignItems="flex-end">
-            <Link to="/fitness-exercices/" style={{textDecoration: 'none', color: '#3A12121', borderBottom: '3px solid #FF2625'}}>Home</Link>
+            <Link to="/" style={{textDecoration: 'none', color: '#3A12121', borderBottom: '3px solid #FF2625'}}>Home</Link>
             <a href="#exercises" style={{ textDecoration: 'none', color: '#3A1212'}}>Exercices</a>
         </Stack>
     </Stack>
