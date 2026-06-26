@@ -2,40 +2,57 @@ import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 
 const ExerciseVideos = ({ exerciseVideos, name }) => {
-
-    if(!exerciseVideos.length) return 'loading...';
+  if (!exerciseVideos.length) {
+    return (
+      <Box component="section" sx={{ marginTop: { lg: '120px', xs: '48px' } }} p={{ xs: '16px', sm: '20px' }}>
+        <Typography variant="h4" fontWeight={700} mb="16px">
+          Vidéos de l'exercice
+        </Typography>
+        <Box className="empty-state">
+          <Typography color="text.secondary">
+            Aucune vidéo n'a été trouvée pour cet exercice.
+          </Typography>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ marginTop: { lg: '200px', xs: '20px'}}} p="20px">
-        <Typography variant="h4" mb="33px">
-            Watch <span style={{ color: '#ff2625', textTransform: 'capitalize'}}> {name} </span>exercise video
-        </Typography>
-        <Stack justifyContent="flex-start" flexWrap="wrap" alignItems="center" sx={{
-            flexDirection: { lg: 'row'},
-            gap: { lg: '110px', xs:'0'}
-        }}>
-            {exerciseVideos?.slice(0, 6)?.map((item, index) => (
-                <a
-                key={index}
-                className="exercise-video"
-                href={`https://www.youtube.com/watch?v=${item.video.videoId}`}
-                target="_blank"
-                rel="noreferrer"
-                >
-                <img src={item.video.thumbnails[0].url} alt={item.video.title} />
-                <Box>
-                    <Typography variant="h5" color="#000">
-                        {item.video.title}
-                    </Typography>
-                    <Typography variant="h6" color="#000">
-                        {item.video.channelName}
-                    </Typography>
-                </Box>
-                </a>
-            ))}
-        </Stack>
-    </Box>
-  )
-}
+    <Box component="section" sx={{ marginTop: { lg: '120px', xs: '48px' } }} p={{ xs: '16px', sm: '20px' }}>
+      <Typography variant="h4" fontWeight={700} mb="33px">
+        Vidéos pour <span style={{ color: '#ff2625', textTransform: 'capitalize' }}>{name}</span>
+      </Typography>
+      <Stack justifyContent="flex-start" flexWrap="wrap" alignItems="stretch" className="video-grid">
+        {exerciseVideos?.slice(0, 6)?.map((item) => {
+          const video = item.video;
 
-export default ExerciseVideos
+          if (!video?.videoId) {
+            return null;
+          }
+
+          return (
+            <a
+              key={video.videoId}
+              className="exercise-video"
+              href={`https://www.youtube.com/watch?v=${video.videoId}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={video.thumbnails?.[0]?.url} alt={video.title} loading="lazy" />
+              <Box className="exercise-video__content">
+                <Typography variant="h6" color="#151515" fontWeight={700}>
+                  {video.title}
+                </Typography>
+                <Typography color="text.secondary">
+                  {video.channelName}
+                </Typography>
+              </Box>
+            </a>
+          );
+        })}
+      </Stack>
+    </Box>
+  );
+};
+
+export default ExerciseVideos;
