@@ -6,6 +6,7 @@ import Detail from '../components/Detail';
 import ExerciseVideos from '../components/ExerciseVideos';
 import SimilarExercises from '../components/SimilarExercises';
 import Loader from '../components/Loader';
+import Seo from '../components/Seo';
 
 const ExerciseDetail = () => {
   const [exerciseDetail, setExerciseDetail] = useState({});
@@ -97,8 +98,30 @@ const ExerciseDetail = () => {
     );
   }
 
+  const exerciseTitle = exerciseDetail.name
+    ? `${exerciseDetail.name} | Fitness Exercices`
+    : 'Exercice de fitness | Fitness Exercices';
+  const exerciseDescription = exerciseDetail.name
+    ? `Découvrez comment réaliser ${exerciseDetail.name}, avec le muscle ciblé, la zone du corps et le matériel nécessaire.`
+    : 'Découvrez cet exercice de fitness, son muscle ciblé et le matériel nécessaire.';
+
   return (
     <Box>
+      <Seo
+        title={exerciseTitle}
+        description={exerciseDescription}
+        path={`/exercise/${encodeURIComponent(id)}`}
+        structuredData={exerciseDetail.name ? {
+          '@context': 'https://schema.org',
+          '@type': 'Exercise',
+          name: exerciseDetail.name,
+          image: exerciseDetail.gifUrl,
+          url: `https://fitness-exercices.netlify.app/exercise/${encodeURIComponent(id)}`,
+          category: exerciseDetail.bodyPart,
+          muscleWorked: exerciseDetail.target,
+          equipment: exerciseDetail.equipment,
+        } : undefined}
+      />
       <Detail exerciseDetail={exerciseDetail} />
       <ExerciseVideos exerciseVideos={exerciseVideos} name={exerciseDetail.name} />
       <SimilarExercises targetMuscleExercises={targetMuscleExercises} equipmentExercises={equipmentExercises} />
